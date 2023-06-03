@@ -11,14 +11,27 @@ public class CustomButton extends Button {
     public CustomButton(String s) {
         super(s);
 
-        this.setPrefWidth(250);
+        this.defaultSettings();
+        this.setOnMouseEntered(event -> this.setHoverStyle());
+        this.setOnMouseExited(event -> this.setDefaultStyle());
+    }
+
+    public CustomButton(CustomImage image) {
+        super();
+
+        this.setGraphic(image);
+        this.defaultSettings();
+        this.setMinWidth(image.getFitWidth());
+        this.setMinHeight(image.getFitHeight());
+    }
+
+    private void defaultSettings() {
+        this.setMinWidth(150);
         this.setPadding(new Insets(10));
         this.setCursor(Cursor.HAND);
         this.setFont(CustomFont.MONTSERRAT_REGULAR.getFont());
 
         this.setDefaultStyle();
-        this.setOnMouseEntered(event -> this.setHoverStyle());
-        this.setOnMouseExited(event -> this.setDefaultStyle());
     }
 
     private void setHoverStyle() {
@@ -27,7 +40,7 @@ public class CustomButton extends Button {
     }
 
     private void setDefaultStyle() {
-        this.setStyle("-fx-background-color: "+CustomColor.BROWN.asString()+";-fx-background-radius: 0;-fx-border-color:"+CustomColor.BROWN.asString());
+        this.setStyle("-fx-background-color: "+CustomColor.BROWN.asString()+";-fx-background-radius: 0;-fx-border-width: 1px;-fx-border-color:"+CustomColor.BROWN.asString());
         this.setTextFill(CustomColor.WHITE.asColor());
     }
 

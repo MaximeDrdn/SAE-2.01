@@ -7,7 +7,7 @@ import com.spaceraceinc.logicielchevalblancdemerde.ui.StageTemplate;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomButton;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomQuantityField;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.FormActions;
-import com.spaceraceinc.logicielchevalblancdemerde.ui.Title;
+import com.spaceraceinc.logicielchevalblancdemerde.ui.typography.Title;
 import com.spaceraceinc.logicielchevalblancdemerde.enums.TitleType;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -76,7 +76,7 @@ public class RegisterConsummation extends StageTemplate {
 
     private FlowPane renderFields() {
         final FlowPane group = new FlowPane(Orientation.VERTICAL);
-        final Button button = new Button("Ajouter une consommation");
+        final Button button = new CustomButton("Ajouter une consommation");
         this.chamberNumber = new CustomQuantityField("Numéro de chambre", "Format: NuméroEtageXX (ex: 201)");
 
         button.setOnAction(action -> this.openModal(new AddConsummationModal(this.consummations)));

@@ -6,7 +6,7 @@ import com.spaceraceinc.logicielchevalblancdemerde.ui.StageTemplate;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomTextField;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomQuantityField;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.FormActions;
-import com.spaceraceinc.logicielchevalblancdemerde.ui.Title;
+import com.spaceraceinc.logicielchevalblancdemerde.ui.typography.Title;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Orientation;

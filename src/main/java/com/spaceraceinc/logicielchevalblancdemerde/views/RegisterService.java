@@ -9,7 +9,7 @@ import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomButton;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomQuantityField;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomRadioList;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomTextField;
-import com.spaceraceinc.logicielchevalblancdemerde.ui.Title;
+import com.spaceraceinc.logicielchevalblancdemerde.ui.typography.Title;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableList;

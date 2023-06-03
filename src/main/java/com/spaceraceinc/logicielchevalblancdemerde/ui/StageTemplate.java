@@ -1,5 +1,6 @@
 package com.spaceraceinc.logicielchevalblancdemerde.ui;
 
+import com.spaceraceinc.logicielchevalblancdemerde.enums.CustomColor;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
