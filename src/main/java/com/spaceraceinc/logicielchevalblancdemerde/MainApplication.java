@@ -9,7 +9,7 @@ public class MainApplication extends Application {
     @Override
     public void start(Stage stage) {
         stage = new MainMenu();
-        stage.getIcons().add(new Image("file:resources/logo.jpg"));
+        stage.getIcons().add(new Image("file:resources/images/icon.png"));
         stage.show();
     }
 

@@ -5,7 +5,7 @@ import com.spaceraceinc.logicielchevalblancdemerde.views.RegisterBreakfast;
 import com.spaceraceinc.logicielchevalblancdemerde.views.RegisterConsummation;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.StageTemplate;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomButton;
-import com.spaceraceinc.logicielchevalblancdemerde.ui.title.Title;
+import com.spaceraceinc.logicielchevalblancdemerde.ui.Title;
 import com.spaceraceinc.logicielchevalblancdemerde.views.RegisterService;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;

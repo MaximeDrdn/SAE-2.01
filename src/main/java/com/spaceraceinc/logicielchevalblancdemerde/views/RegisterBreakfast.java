@@ -6,7 +6,7 @@ import com.spaceraceinc.logicielchevalblancdemerde.ui.StageTemplate;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomButton;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomTextField;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomQuantityField;
-import com.spaceraceinc.logicielchevalblancdemerde.ui.title.Title;
+import com.spaceraceinc.logicielchevalblancdemerde.ui.Title;
 import com.spaceraceinc.logicielchevalblancdemerde.enums.TitleType;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
