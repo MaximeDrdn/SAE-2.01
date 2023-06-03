@@ -1,4 +1,4 @@
-package com.example.logicielchevalblancdemerde;
+package com.spaceraceinc.logicielchevalblancdemerde;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

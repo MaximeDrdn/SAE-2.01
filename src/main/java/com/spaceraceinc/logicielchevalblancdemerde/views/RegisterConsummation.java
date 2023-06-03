@@ -1,14 +1,14 @@
-package com.example.logicielchevalblancdemerde.views;
+package com.spaceraceinc.logicielchevalblancdemerde.views;
 
-import com.example.logicielchevalblancdemerde.Utils;
-import com.example.logicielchevalblancdemerde.modals.AddConsummationModal;
-import com.example.logicielchevalblancdemerde.modules.Consummation;
-import com.example.logicielchevalblancdemerde.ui.StageTemplate;
-import com.example.logicielchevalblancdemerde.ui.fields.CustomButton;
-import com.example.logicielchevalblancdemerde.ui.fields.CustomQuantityField;
-import com.example.logicielchevalblancdemerde.ui.FormActions;
-import com.example.logicielchevalblancdemerde.ui.title.Title;
-import com.example.logicielchevalblancdemerde.enums.TitleType;
+import com.spaceraceinc.logicielchevalblancdemerde.Utils;
+import com.spaceraceinc.logicielchevalblancdemerde.modals.AddConsummationModal;
+import com.spaceraceinc.logicielchevalblancdemerde.modules.Consummation;
+import com.spaceraceinc.logicielchevalblancdemerde.ui.StageTemplate;
+import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomButton;
+import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomQuantityField;
+import com.spaceraceinc.logicielchevalblancdemerde.ui.FormActions;
+import com.spaceraceinc.logicielchevalblancdemerde.ui.title.Title;
+import com.spaceraceinc.logicielchevalblancdemerde.enums.TitleType;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;

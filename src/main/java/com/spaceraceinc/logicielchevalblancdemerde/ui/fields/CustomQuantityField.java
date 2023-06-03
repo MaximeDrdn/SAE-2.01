@@ -1,4 +1,4 @@
-package com.example.logicielchevalblancdemerde.ui.fields;
+package com.spaceraceinc.logicielchevalblancdemerde.ui.fields;
 
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;

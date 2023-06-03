@@ -1,4 +1,4 @@
-package com.example.logicielchevalblancdemerde;
+package com.spaceraceinc.logicielchevalblancdemerde;
 
 import javafx.application.Application;
 import javafx.scene.image.Image;

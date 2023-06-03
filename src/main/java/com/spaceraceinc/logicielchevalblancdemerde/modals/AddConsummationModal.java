@@ -1,12 +1,12 @@
-package com.example.logicielchevalblancdemerde.modals;
+package com.spaceraceinc.logicielchevalblancdemerde.modals;
 
-import com.example.logicielchevalblancdemerde.Utils;
-import com.example.logicielchevalblancdemerde.modules.Consummation;
-import com.example.logicielchevalblancdemerde.ui.StageTemplate;
-import com.example.logicielchevalblancdemerde.ui.fields.CustomTextField;
-import com.example.logicielchevalblancdemerde.ui.fields.CustomQuantityField;
-import com.example.logicielchevalblancdemerde.ui.FormActions;
-import com.example.logicielchevalblancdemerde.ui.title.Title;
+import com.spaceraceinc.logicielchevalblancdemerde.Utils;
+import com.spaceraceinc.logicielchevalblancdemerde.modules.Consummation;
+import com.spaceraceinc.logicielchevalblancdemerde.ui.StageTemplate;
+import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomTextField;
+import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomQuantityField;
+import com.spaceraceinc.logicielchevalblancdemerde.ui.FormActions;
+import com.spaceraceinc.logicielchevalblancdemerde.ui.title.Title;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Orientation;

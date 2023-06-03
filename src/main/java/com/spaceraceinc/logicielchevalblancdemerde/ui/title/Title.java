@@ -1,6 +1,6 @@
-package com.example.logicielchevalblancdemerde.ui.title;
+package com.spaceraceinc.logicielchevalblancdemerde.ui.title;
 
-import com.example.logicielchevalblancdemerde.enums.TitleType;
+import com.spaceraceinc.logicielchevalblancdemerde.enums.TitleType;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;

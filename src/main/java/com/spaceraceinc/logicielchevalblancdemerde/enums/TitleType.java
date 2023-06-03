@@ -1,4 +1,4 @@
-package com.example.logicielchevalblancdemerde.enums;
+package com.spaceraceinc.logicielchevalblancdemerde.enums;
 
 public enum TitleType {
     H1(17),

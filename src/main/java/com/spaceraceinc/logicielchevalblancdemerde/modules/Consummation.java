@@ -1,4 +1,4 @@
-package com.example.logicielchevalblancdemerde.modules;
+package com.spaceraceinc.logicielchevalblancdemerde.modules;
 
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;

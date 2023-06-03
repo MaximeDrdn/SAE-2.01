@@ -4,6 +4,6 @@ module com.example.logicielchevalblancdemerde {
     requires javafx.graphics;
 
 
-    opens com.example.logicielchevalblancdemerde to javafx.fxml;
-    exports com.example.logicielchevalblancdemerde;
+    opens com.spaceraceinc.logicielchevalblancdemerde to javafx.fxml;
+    exports com.spaceraceinc.logicielchevalblancdemerde;
 }
