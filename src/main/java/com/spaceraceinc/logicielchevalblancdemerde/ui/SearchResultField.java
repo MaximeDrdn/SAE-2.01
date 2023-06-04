@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 
 public class SearchResultField extends BorderPane {
 
-    public SearchResultField() {
+    public SearchResultField(Object data) {
         this.setStyle("-fx-border-width: 1px;-fx-border-color: " + CustomColor.BROWN.asString());
         this.setPadding(new Insets(10));
 

@@ -6,14 +6,24 @@ import com.spaceraceinc.logicielchevalblancdemerde.ui.SearchResultField;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.*;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.StageTemplate;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.typography.Title;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class MainMenu extends StageTemplate {
 
@@ -21,10 +31,36 @@ public class MainMenu extends StageTemplate {
     private NavLink activeNavLink;
     private GridPane navbarComponent;
 
+    private CustomTextField label;
+    private CustomDateField date;
+
+    private ListProperty<Object> results;
+
     public MainMenu() {
         super("Logiciel ChevalBlanc", 1000, 600);
         this.setMinWidth(1000);
         this.setMinHeight(600);
+    }
+
+    private void search(ActionEvent event) {
+        TextField label = this.label.getField();
+        DatePicker date = this.date.getField();
+        String labelContent = label.getText();
+        LocalDate dateContent = date.getValue();
+
+        if(!Utils.isStringFieldValid(labelContent)) {
+            this.openAlert(Alert.AlertType.ERROR, "Le libellé n'est pas remplit.");
+            return;
+        }
+        if(dateContent == null) {
+            this.openAlert(Alert.AlertType.ERROR, "La date n'est pas remplit.");
+            return;
+        }
+
+        label.setText(null);
+        date.getEditor().setText(null);
+
+        this.results.add(new  Object());
     }
 
     private GridPane renderNavBar() {
@@ -38,12 +74,7 @@ public class MainMenu extends StageTemplate {
             String linkName = link.getName();
 
             final CustomNavLinkItem linkItem = new CustomNavLinkItem(linkName, this.activeNavLink.getName().equals(linkName));
-            linkItem.setOnAction(event -> {
-                this.addButton.setText(link.getButtonLabel());
-                this.activeNavLink = link;
-                this.updatePaneComponent(this.navbarComponent, this.renderNavBar());
-                this.addButton.setOnAction(__ -> this.openModal(NavLink.getClassFrom(linkName)));
-            });
+            linkItem.setOnAction(event -> this.updatePage(link));
 
             group.add(linkItem, i, 0);
         }
@@ -57,24 +88,36 @@ public class MainMenu extends StageTemplate {
         return group;
     }
 
+    private void updatePage(NavLink link) {
+        String linkName = link.getName();
+        this.addButton.setText(link.getButtonLabel());
+        this.activeNavLink = link;
+        this.updatePaneComponent(this.navbarComponent, this.renderNavBar());
+        this.addButton.setOnAction(__ -> this.openModal(NavLink.getClassFrom(linkName)));
+        this.results.clear();
+    }
+
     private FlowPane renderHeader() {
         final CustomButton searchButton = new CustomButton(new CustomImage("icons/search.png", 14, 14));
         final NavLink activeLink = this.activeNavLink;
         final String buttonLabel = activeLink.getButtonLabel();
         final String name = activeLink.getName();
 
-        if (this.addButton == null)
-            this.addButton = new CustomButton(buttonLabel);
+        this.addButton = new CustomButton(buttonLabel);
+        this.label = new CustomTextField("Libellé");
+        this.date = new CustomDateField("Date d'enregistrement");
+
         final FlowPane pane = new FlowPane();
 
         this.addButton.setOnAction(event -> this.openModal(NavLink.getClassFrom(name)));
+        searchButton.setOnAction(this::search);
 
         searchButton.setTranslateY(11);
         this.addButton.setTranslateY(11);
 
         pane.getChildren().addAll(
-            new CustomTextField("Libellé"),
-            new CustomDateField("Date d'enregistrement"),
+            this.label,
+            this.date,
             searchButton,
             this.addButton
         );
@@ -86,12 +129,16 @@ public class MainMenu extends StageTemplate {
 
     private FlowPane renderResultFields() {
         FlowPane pane = new FlowPane(Orientation.VERTICAL);
-        //pane.getChildren().add(new Title("Aucun resultat trouvé"));
-        pane.getChildren().addAll(
-                new SearchResultField(),
-                new SearchResultField(),
-                new SearchResultField()
-        );
+        this.results = new SimpleListProperty<>(FXCollections.observableArrayList(new ArrayList<>()));
+        Title noResultFound = new Title("Aucun resultat trouvé.");
+
+        this.results.addListener((props, oldList, list) -> {
+            pane.getChildren().clear();
+            if(list.size() < 1) pane.getChildren().add(noResultFound);
+            else list.forEach(data -> pane.getChildren().add(new SearchResultField(data)));
+        });
+
+        pane.getChildren().add(noResultFound);
         pane.setVgap(20);
         pane.setAlignment(Pos.TOP_CENTER);
         return pane;
