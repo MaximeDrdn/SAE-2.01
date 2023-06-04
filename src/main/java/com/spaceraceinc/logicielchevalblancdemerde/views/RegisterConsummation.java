@@ -14,7 +14,9 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -28,18 +30,17 @@ import java.util.ArrayList;
 public class RegisterConsummation extends StageTemplate {
 
     private CustomQuantityField chamberNumber;
-
-    private FlowPane mainContent;
     private HBox bottomContent;
 
     private final ListProperty<Consummation> consummations;
 
     public RegisterConsummation() {
-        super("Enregistrer des consommations");
+        super("Enregistrer des consommations", 350, 300);
 
         ObservableList<Consummation> observableList = FXCollections.observableArrayList(new ArrayList<>());
 
         this.consummations = new SimpleListProperty<>(observableList);
+        this.setResizable(false);
     }
 
     private void showRecap(ActionEvent action) {
@@ -53,25 +54,8 @@ public class RegisterConsummation extends StageTemplate {
             return;
         }
 
-        this.updatePaneComponent(this.mainContent, this.renderRecap());
-
-        final CustomButton exit = new CustomButton("Quitter");
-        exit.setOnAction(event -> this.close());
-        this.updatePaneComponent(this.bottomContent, exit);
-    }
-
-    private FlowPane renderRecap() {
-        FlowPane group = new FlowPane(Orientation.VERTICAL);
-
-        group.getChildren().addAll(
-            new Title("Date d'enregistrement: " + Utils.formatDate(LocalDateTime.now()), TitleType.H2),
-            new Title("Numéro de la chambre: " + chamberNumber.getField().getValue(), TitleType.H3),
-            new Title("Consomamtions:", TitleType.H4)
-        );
-        this.consummations.forEach(consummation ->
-            group.getChildren().add(consummation.render())
-        );
-        return group;
+        this.close();
+        this.openAlert(Alert.AlertType.INFORMATION, "Les consommations ont été ajoutés à la chambre.");
     }
 
     private FlowPane renderFields() {
@@ -81,6 +65,7 @@ public class RegisterConsummation extends StageTemplate {
 
         button.setOnAction(action -> this.openModal(new AddConsummationModal(this.consummations)));
 
+        group.setAlignment(Pos.CENTER);
         group.setVgap(10);
         group.getChildren().addAll(this.chamberNumber, button);
         return group;
@@ -88,9 +73,7 @@ public class RegisterConsummation extends StageTemplate {
 
     @Override
     public FlowPane renderMainContent() {
-        if(this.mainContent == null)
-            this.mainContent = this.renderFields();
-        return this.mainContent;
+        return this.renderFields();
     }
 
     @Override
