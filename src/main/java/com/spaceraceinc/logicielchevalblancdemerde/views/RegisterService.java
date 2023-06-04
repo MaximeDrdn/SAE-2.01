@@ -2,10 +2,8 @@ package com.spaceraceinc.logicielchevalblancdemerde.views;
 
 import com.spaceraceinc.logicielchevalblancdemerde.Utils;
 import com.spaceraceinc.logicielchevalblancdemerde.enums.ServiceType;
-import com.spaceraceinc.logicielchevalblancdemerde.enums.TitleType;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.FormActions;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.StageTemplate;
-import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomButton;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomQuantityField;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomRadioList;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomTextField;
@@ -15,13 +13,12 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -35,12 +32,9 @@ public class RegisterService extends StageTemplate {
 
     private BooleanProperty hasSelectedPressing;
 
-    private Title title;
-    private FlowPane mainContent;
-    private HBox bottomContent;
-
     public RegisterService() {
-        super("Enregistrer des prestations à l'accueil", 400, 550);
+        super("Enregistrer des prestations à l'accueil", 350, 450);
+        this.setResizable(false);
     }
 
     private void loadServiceTypes() {
@@ -81,28 +75,8 @@ public class RegisterService extends StageTemplate {
             return;
         }
 
-        CustomButton exit = new CustomButton("Quitter");
-        exit.setOnAction(event -> this.close());
-
-        this.title.setText("Récapitulatif du service enregistré");
-        this.updatePaneComponent(this.mainContent, this.renderRecap());
-        this.updatePaneComponent(this.bottomContent, exit);
-    }
-
-    private FlowPane renderRecap() {
-        final FlowPane group = new FlowPane(Orientation.VERTICAL);
-        final RadioButton selectedOption = (RadioButton) this.list.getSelectedToggle();
-        final ObservableList<Node> children = group.getChildren();
-
-        children.addAll(
-            new Title("Date d'enregistrement: " + Utils.formatDate(LocalDateTime.now()), TitleType.H2),
-            new Title("Numéro de la chambre: " + chamberNumber.getField().getValue(), TitleType.H2),
-            new Title("Type de prestation: " + selectedOption.getText(), TitleType.H2)
-        );
-        if(this.hasSelectedPressing.get())
-            children.add( new Title("Libellé: " + this.label.getField().getText(), TitleType.H2));
-        children.add(new Title("Montant HT: " + amountWF.getField().getValue(), TitleType.H2));
-        return group;
+        this.close();
+        this.openAlert(Alert.AlertType.INFORMATION, "Les prestations ont été ajoutés.");
     }
 
     private FlowPane renderFields() {
@@ -127,6 +101,9 @@ public class RegisterService extends StageTemplate {
                 children.remove(this.label);
         });
         children.add(amountWF);
+
+        group.setVgap(10);
+        group.setAlignment(Pos.CENTER);
         return group;
     }
 
@@ -139,23 +116,17 @@ public class RegisterService extends StageTemplate {
 
     @Override
     public Node renderTopContent() {
-        if(this.title == null)
-            this.title = new Title("Enregistrer un service à l'accueil");
-        return null;
+        return new Title("Enregistrer un service à l'accueil");
     }
 
     @Override
     public Node renderMainContent() {
-        if(this.mainContent == null)
-            this.mainContent = this.renderFields();
-        return this.mainContent;
+        return this.renderFields();
     }
 
     @Override
     public Node renderBottomContent() {
-        if(this.bottomContent == null)
-            this.bottomContent = this.renderActions();
-        return this.bottomContent;
+        return this.renderActions();
     }
 
 }

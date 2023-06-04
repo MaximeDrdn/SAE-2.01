@@ -27,7 +27,7 @@ public class AddConsummationModal extends StageTemplate {
     private CustomQuantityField quantity;
 
     public AddConsummationModal(ObservableList<Consummation> consummations) {
-        super("Ajouter une consomamtion", 400, 400);
+        super("Ajouter une consomamtion", 350, 350);
 
         this.consummations = consummations;
         this.setResizable(false);

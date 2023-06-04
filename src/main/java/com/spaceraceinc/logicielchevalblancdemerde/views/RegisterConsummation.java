@@ -8,13 +8,11 @@ import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomButton;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomQuantityField;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.FormActions;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.typography.Title;
-import com.spaceraceinc.logicielchevalblancdemerde.enums.TitleType;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -23,19 +21,17 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 
 public class RegisterConsummation extends StageTemplate {
 
     private CustomQuantityField chamberNumber;
-    private HBox bottomContent;
 
     private final ListProperty<Consummation> consummations;
 
     public RegisterConsummation() {
-        super("Enregistrer des consommations", 350, 300);
+        super("Enregistrer des consommations", 350, 250);
 
         ObservableList<Consummation> observableList = FXCollections.observableArrayList(new ArrayList<>());
 
@@ -83,13 +79,10 @@ public class RegisterConsummation extends StageTemplate {
 
     @Override
     public HBox renderBottomContent() {
-        if (this.bottomContent == null) {
-            final FormActions formActions = new FormActions("Enregistrer", "Quitter");
-            formActions.setConfirmCallback(this::showRecap);
-            formActions.setCancelCallback(event -> this.close());
-            this.bottomContent = formActions;
-        }
-        return this.bottomContent;
+        final FormActions formActions = new FormActions("Enregistrer", "Retour en arrière");
+        formActions.setConfirmCallback(this::showRecap);
+        formActions.setCancelCallback(event -> this.close());
+        return formActions;
     }
 
 }

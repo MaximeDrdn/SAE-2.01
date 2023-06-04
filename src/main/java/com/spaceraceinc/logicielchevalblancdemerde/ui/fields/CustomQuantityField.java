@@ -18,7 +18,13 @@ public class CustomQuantityField extends GridPane {
 
         field.setPromptText(labelName);
         field.setPrefWidth(300);
-        field.setStyle("-fx-border-width: 1px;-fx-border-color: " + CustomColor.BROWN.asString() + ";-fx-background-radius: 0;-fx-focus-color: transparent;-fx-faint-focus-color: transparent;");
+        field.setStyle(
+            "-fx-border-width: 1px;" +
+            "-fx-border-color: " + CustomColor.BROWN.asString() + ";" +
+            "-fx-border-radius: 0;" +
+            "-fx-focus-color: transparent;" +
+            "-fx-faint-focus-color: transparent;"
+        );
         field.getEditor().setFont(CustomFont.MONTSERRAT_REGULAR.getFont());
         field.getEditor().setPadding(new Insets(9));
 

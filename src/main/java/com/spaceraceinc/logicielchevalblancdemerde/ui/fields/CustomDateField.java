@@ -19,7 +19,7 @@ public class CustomDateField extends GridPane {
         field.setPrefWidth(300);
         field.setStyle(
             "-fx-border-width: 1px;-fx-border-color: " + CustomColor.BROWN.asString() + ";" +
-            "-fx-background-radius: 0;" +
+            "-fx-border-radius: 0;" +
             "-fx-focus-color: transparent;" +
             "-fx-faint-focus-color: transparent;"
         );

@@ -6,7 +6,6 @@ import com.spaceraceinc.logicielchevalblancdemerde.ui.SearchResultField;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.*;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.StageTemplate;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.typography.Title;
-import com.spaceraceinc.logicielchevalblancdemerde.views.RegisterConsummation;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -18,25 +17,35 @@ import javafx.scene.layout.HBox;
 
 public class MainMenu extends StageTemplate {
 
-    private String addButtonLabel;
-    private String linkActive;
+    private CustomButton addButton;
+    private NavLink activeNavLink;
+    private GridPane navbarComponent;
 
     public MainMenu() {
-        super("Logiciel LeChevalBlanc", 1000, 600);
+        super("Logiciel ChevalBlanc", 1000, 600);
         this.setMinWidth(1000);
         this.setMinHeight(600);
     }
 
     private GridPane renderNavBar() {
-        if (this.linkActive == null)
-            this.linkActive = NavLink.first().getName();
+        if (this.activeNavLink == null)
+            this.activeNavLink = NavLink.first();
 
         GridPane group = new GridPane();
         NavLink[] values = NavLink.values();
         for (int i = 0; i < values.length; i++) {
-            String linkName = values[i].getName();
-            final CustomNavLinkItem link = new CustomNavLinkItem(linkName, this.linkActive.equals(linkName));
-            group.add(link, i, 0);
+            NavLink link = values[i];
+            String linkName = link.getName();
+
+            final CustomNavLinkItem linkItem = new CustomNavLinkItem(linkName, this.activeNavLink.getName().equals(linkName));
+            linkItem.setOnAction(event -> {
+                this.addButton.setText(link.getButtonLabel());
+                this.activeNavLink = link;
+                this.updatePaneComponent(this.navbarComponent, this.renderNavBar());
+                this.addButton.setOnAction(__ -> this.openModal(NavLink.getClassFrom(linkName)));
+            });
+
+            group.add(linkItem, i, 0);
         }
         final CustomButton exit = new CustomButton("Quitter");
 
@@ -48,21 +57,26 @@ public class MainMenu extends StageTemplate {
         return group;
     }
 
-    private FlowPane renderHeader(String addButtonLabel) {
+    private FlowPane renderHeader() {
         final CustomButton searchButton = new CustomButton(new CustomImage("icons/search.png", 14, 14));
-        final CustomButton addButton = new CustomButton(addButtonLabel);
+        final NavLink activeLink = this.activeNavLink;
+        final String buttonLabel = activeLink.getButtonLabel();
+        final String name = activeLink.getName();
+
+        if (this.addButton == null)
+            this.addButton = new CustomButton(buttonLabel);
         final FlowPane pane = new FlowPane();
 
-        addButton.setOnAction(event -> this.openModal(new RegisterConsummation()));
+        this.addButton.setOnAction(event -> this.openModal(NavLink.getClassFrom(name)));
 
         searchButton.setTranslateY(11);
-        addButton.setTranslateY(11);
+        this.addButton.setTranslateY(11);
 
         pane.getChildren().addAll(
             new CustomTextField("Libellé"),
             new CustomDateField("Date d'enregistrement"),
             searchButton,
-            addButton
+            this.addButton
         );
         pane.setAlignment(Pos.CENTER);
         pane.setHgap(10);
@@ -72,6 +86,7 @@ public class MainMenu extends StageTemplate {
 
     private FlowPane renderResultFields() {
         FlowPane pane = new FlowPane(Orientation.VERTICAL);
+        //pane.getChildren().add(new Title("Aucun resultat trouvé"));
         pane.getChildren().addAll(
                 new SearchResultField(),
                 new SearchResultField(),
@@ -84,9 +99,12 @@ public class MainMenu extends StageTemplate {
 
     @Override
     public Node renderTopContent() {
+        if(this.navbarComponent == null)
+            this.navbarComponent = this.renderNavBar();
+
         BorderPane pane = new BorderPane();
         pane.setLeft(new CustomImage("logo.png", 140, 50));
-        pane.setRight(this.renderNavBar());
+        pane.setRight(this.navbarComponent);
         pane.setPadding(new Insets(10, 20, 10, 20));
         return pane;
     }
@@ -94,7 +112,7 @@ public class MainMenu extends StageTemplate {
     @Override
     public Node renderBottomContent() {
         final HBox group = new HBox();
-        final Title title = new Title("© Le Cheval Blanc", false);
+        final Title title = new Title("© ChevalBlanc", false);
 
         title.setFill(CustomColor.BROWN.asColor());
         group.getChildren().add(title);
@@ -104,11 +122,9 @@ public class MainMenu extends StageTemplate {
 
     @Override
     public BorderPane renderMainContent() {
-        if(this.addButtonLabel == null)
-            this.addButtonLabel = "Ajouter une prestation";
         BorderPane pane = new BorderPane();
 
-        pane.setTop(this.renderHeader(this.addButtonLabel));
+        pane.setTop(this.renderHeader());
         pane.setCenter(this.renderResultFields());
         return pane;
     }

@@ -3,18 +3,15 @@ package com.spaceraceinc.logicielchevalblancdemerde.views;
 import com.spaceraceinc.logicielchevalblancdemerde.Utils;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.FormActions;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.StageTemplate;
-import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomButton;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomTextField;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomQuantityField;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.typography.Title;
-import com.spaceraceinc.logicielchevalblancdemerde.enums.TitleType;
 import javafx.event.ActionEvent;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -24,12 +21,9 @@ public class RegisterBreakfast extends StageTemplate {
     private CustomTextField type;
     private CustomQuantityField quantity;
 
-    private Title title;
-    private FlowPane mainContent;
-    private HBox bottomContent;
-
     public RegisterBreakfast() {
-        super("Enregistrer les petits-déjeuners");
+        super("Enregistrer les petits-déjeuners", 350, 350);
+        this.setResizable(false);
     }
 
     private void showRecap(ActionEvent action) {
@@ -46,24 +40,8 @@ public class RegisterBreakfast extends StageTemplate {
             return;
         }
 
-        this.title.setText("Récapitulatif des petits-déjeuners");
-
-        CustomButton exit = new CustomButton("Quitter");
-        exit.setOnAction(event -> this.close());
-
-        this.updatePaneComponent(this.mainContent, this.renderRecap());
-        this.updatePaneComponent(this.bottomContent, exit);
-    }
-
-    private FlowPane renderRecap() {
-        final FlowPane group = new FlowPane();
-        group.getChildren().addAll(
-            new Title("Date d'enregistrement: " + Utils.formatDate(LocalDateTime.now()), TitleType.H2),
-            new Title("Numéro de la chambre: " + chamberNumber.getField().getValue(), TitleType.H2),
-            new Title("Type de petit déjeuner: " + type.getField().getText(), TitleType.H2),
-            new Title("Quantité de petits-déjeuners: " + quantity.getField().getValue(), TitleType.H2)
-        );
-        return group;
+        this.close();
+        this.openAlert(Alert.AlertType.INFORMATION, "Les petits-déjeuners ont été ajoutés à la chambre.");
     }
 
     private FormActions renderActions() {
@@ -73,35 +51,27 @@ public class RegisterBreakfast extends StageTemplate {
         return formActions;
     }
 
-    private FlowPane renderFields() {
+    @Override
+    public Node renderTopContent() {
+        return new Title("Enregistrer les petits-déjeuners");
+    }
+
+    @Override
+    public Node renderMainContent() {
         final FlowPane group = new FlowPane();
         this.chamberNumber = new CustomQuantityField("Numéro de la chambre");
         this.type = new CustomTextField("Type de petit-déjeuner");
         this.quantity = new CustomQuantityField("Quantité de petits-déjeuners");
 
+        group.setAlignment(Pos.CENTER);
+        group.setVgap(10);
         group.getChildren().addAll(chamberNumber, type, quantity);
         return group;
     }
 
     @Override
-    public Node renderTopContent() {
-        if(this.title == null)
-            this.title = new Title("Enregistrer les petits-déjeuners");
-        return this.title;
-    }
-
-    @Override
-    public Node renderMainContent() {
-        if(this.mainContent == null)
-            this.mainContent = this.renderFields();
-        return this.mainContent;
-    }
-
-    @Override
     public Node renderBottomContent() {
-        if(this.bottomContent == null)
-            this.bottomContent = this.renderActions();
-        return this.bottomContent;
+        return this.renderActions();
     }
 
 }

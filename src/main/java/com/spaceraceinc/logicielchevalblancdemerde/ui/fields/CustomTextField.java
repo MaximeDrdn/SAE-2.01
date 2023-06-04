@@ -17,7 +17,13 @@ public class CustomTextField extends GridPane {
 
         field.setPromptText(labelName);
         field.setPrefWidth(300);
-        field.setStyle("-fx-border-width: 1px;-fx-border-color: " + CustomColor.BROWN.asString() + ";-fx-background-radius: 0;-fx-focus-color: transparent;-fx-faint-focus-color: transparent;");
+        field.setStyle(
+                "-fx-border-width: 1px;" +
+                "-fx-border-color: " + CustomColor.BROWN.asString() + ";" +
+                "-fx-border-radius: 0;" +
+                "-fx-focus-color: transparent;" +
+                "-fx-faint-focus-color: transparent;"
+        );
         field.setFont(CustomFont.MONTSERRAT_REGULAR.getFont());
         field.setPadding(new Insets(10));
 
