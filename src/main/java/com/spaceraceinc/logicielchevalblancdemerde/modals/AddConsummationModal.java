@@ -1,6 +1,6 @@
 package com.spaceraceinc.logicielchevalblancdemerde.modals;
 
-import com.spaceraceinc.logicielchevalblancdemerde.Utils;
+import com.spaceraceinc.logicielchevalblancdemerde.utils.Utils;
 import com.spaceraceinc.logicielchevalblancdemerde.modules.Consummation;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.StageTemplate;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomTextField;

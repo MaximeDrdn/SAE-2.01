@@ -1,6 +1,6 @@
 package com.spaceraceinc.logicielchevalblancdemerde.views;
 
-import com.spaceraceinc.logicielchevalblancdemerde.Utils;
+import com.spaceraceinc.logicielchevalblancdemerde.utils.Utils;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.FormActions;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.StageTemplate;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomTextField;

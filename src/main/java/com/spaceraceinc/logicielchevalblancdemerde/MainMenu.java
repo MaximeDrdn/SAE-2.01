@@ -1,11 +1,15 @@
 package com.spaceraceinc.logicielchevalblancdemerde;
 
 import com.spaceraceinc.logicielchevalblancdemerde.enums.CustomColor;
+import com.spaceraceinc.logicielchevalblancdemerde.enums.DataFile;
 import com.spaceraceinc.logicielchevalblancdemerde.enums.NavLink;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.SearchResultField;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.*;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.StageTemplate;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.typography.Title;
+import com.spaceraceinc.logicielchevalblancdemerde.utils.FileManager;
+import com.spaceraceinc.logicielchevalblancdemerde.utils.FilterResults;
+import com.spaceraceinc.logicielchevalblancdemerde.utils.Utils;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
@@ -31,7 +35,6 @@ public class MainMenu extends StageTemplate {
     private NavLink activeNavLink;
     private GridPane navbarComponent;
 
-    private CustomTextField label;
     private CustomDateField date;
 
     private ListProperty<Object> results;
@@ -43,24 +46,20 @@ public class MainMenu extends StageTemplate {
     }
 
     private void search(ActionEvent event) {
-        TextField label = this.label.getField();
         DatePicker date = this.date.getField();
-        String labelContent = label.getText();
         LocalDate dateContent = date.getValue();
 
-        if(!Utils.isStringFieldValid(labelContent)) {
-            this.openAlert(Alert.AlertType.ERROR, "Le libellé n'est pas remplit.");
-            return;
-        }
         if(dateContent == null) {
             this.openAlert(Alert.AlertType.ERROR, "La date n'est pas remplit.");
             return;
         }
 
-        label.setText(null);
         date.getEditor().setText(null);
 
-        this.results.add(new  Object());
+        FilterResults filterResults = new FilterResults(dateContent);
+        filterResults.setResults(FileManager.readFile(DataFile.CUSTOMER_SERVICES_DATA.getFileName()));
+        this.results.clear();
+        this.results.addAll(filterResults.getFilteredResults());
     }
 
     private GridPane renderNavBar() {
@@ -104,7 +103,6 @@ public class MainMenu extends StageTemplate {
         final String name = activeLink.getName();
 
         this.addButton = new CustomButton(buttonLabel);
-        this.label = new CustomTextField("Libellé");
         this.date = new CustomDateField("Date d'enregistrement");
 
         final FlowPane pane = new FlowPane();
@@ -115,12 +113,7 @@ public class MainMenu extends StageTemplate {
         searchButton.setTranslateY(11);
         this.addButton.setTranslateY(11);
 
-        pane.getChildren().addAll(
-            this.label,
-            this.date,
-            searchButton,
-            this.addButton
-        );
+        pane.getChildren().addAll(this.date, searchButton, this.addButton);
         pane.setAlignment(Pos.CENTER);
         pane.setHgap(10);
         pane.setPadding(new Insets(25, 0, 30, 0));
@@ -134,8 +127,10 @@ public class MainMenu extends StageTemplate {
 
         this.results.addListener((props, oldList, list) -> {
             pane.getChildren().clear();
-            if(list.size() < 1) pane.getChildren().add(noResultFound);
-            else list.forEach(data -> pane.getChildren().add(new SearchResultField(data)));
+            if(list.size() < 1)
+                pane.getChildren().add(noResultFound);
+            else
+                list.forEach(data -> pane.getChildren().add(new SearchResultField(data)));
         });
 
         pane.getChildren().add(noResultFound);
@@ -146,8 +141,7 @@ public class MainMenu extends StageTemplate {
 
     @Override
     public Node renderTopContent() {
-        if(this.navbarComponent == null)
-            this.navbarComponent = this.renderNavBar();
+        this.navbarComponent = this.renderNavBar();
 
         BorderPane pane = new BorderPane();
         pane.setLeft(new CustomImage("logo.png", 140, 50));

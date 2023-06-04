@@ -1,6 +1,8 @@
 package com.spaceraceinc.logicielchevalblancdemerde.views;
 
-import com.spaceraceinc.logicielchevalblancdemerde.Utils;
+import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerConsummations;
+import com.spaceraceinc.logicielchevalblancdemerde.utils.FileManager;
+import com.spaceraceinc.logicielchevalblancdemerde.utils.Utils;
 import com.spaceraceinc.logicielchevalblancdemerde.modals.AddConsummationModal;
 import com.spaceraceinc.logicielchevalblancdemerde.modules.Consummation;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.StageTemplate;
@@ -39,7 +41,7 @@ public class RegisterConsummation extends StageTemplate {
         this.setResizable(false);
     }
 
-    private void showRecap(ActionEvent action) {
+    private void registerConsummation(ActionEvent action) {
         int chamberNumber = this.chamberNumber.getField().getValue();
         if(!Utils.isIntFieldValid(this.consummations.size())) {
             this.openAlert(Alert.AlertType.ERROR, "Veuillez ajouter au moins une consommation");
@@ -80,7 +82,7 @@ public class RegisterConsummation extends StageTemplate {
     @Override
     public HBox renderBottomContent() {
         final FormActions formActions = new FormActions("Enregistrer", "Retour en arrière");
-        formActions.setConfirmCallback(this::showRecap);
+        formActions.setConfirmCallback(this::registerConsummation);
         formActions.setCancelCallback(event -> this.close());
         return formActions;
     }

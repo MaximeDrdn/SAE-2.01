@@ -1,5 +1,6 @@
-package com.spaceraceinc.logicielchevalblancdemerde;
+package com.spaceraceinc.logicielchevalblancdemerde.utils;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -13,6 +14,12 @@ public class Utils {
     public static String formatDate(LocalDateTime date) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd à HH:mm");
         return dtf.format(date);
+    }
+
+    public static boolean dateEquals(LocalDate dateA, LocalDate dateB) {
+        return dateA.getYear() == dateB.getYear() &&
+            dateA.getMonthValue() == dateB.getMonthValue() &&
+            dateA.getDayOfMonth() == dateB.getDayOfMonth();
     }
 
     public static boolean isStringFieldValid(String value) {

@@ -1,6 +1,9 @@
 package com.spaceraceinc.logicielchevalblancdemerde.views;
 
-import com.spaceraceinc.logicielchevalblancdemerde.Utils;
+import com.spaceraceinc.logicielchevalblancdemerde.enums.DataFile;
+import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerServices;
+import com.spaceraceinc.logicielchevalblancdemerde.utils.FileManager;
+import com.spaceraceinc.logicielchevalblancdemerde.utils.Utils;
 import com.spaceraceinc.logicielchevalblancdemerde.enums.ServiceType;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.FormActions;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.StageTemplate;
@@ -50,7 +53,7 @@ public class RegisterService extends StageTemplate {
         });
     }
 
-    private void showRecap(ActionEvent action) {
+    private void registerService(ActionEvent action) {
         final RadioButton selectedToggle = (RadioButton) this.list.getSelectedToggle();
 
         final int chamberNumber = this.chamberNumber.getField().getValue();
@@ -61,9 +64,10 @@ public class RegisterService extends StageTemplate {
 
         final ArrayList<String> labels = new ArrayList<>(List.of("numéro de chambre", "montant HT"));
         final ArrayList<Boolean> values = new ArrayList<>(List.of(Utils.isIntFieldValid(chamberNumber), Utils.isIntFieldValid(amountWF)));
+        final boolean hasPressing = choice.equals(ServiceType.PRESSING.getName());
 
 
-        if(choice.equals(ServiceType.PRESSING.getName())) {
+        if(hasPressing) {
             labels.add("libellé");
             values.add(Utils.isStringFieldValid(label));
         }
@@ -77,6 +81,11 @@ public class RegisterService extends StageTemplate {
 
         this.close();
         this.openAlert(Alert.AlertType.INFORMATION, "Les prestations ont été ajoutés.");
+
+        CustomerServices customerServices = new CustomerServices(chamberNumber, choice);
+        if(hasPressing)
+            customerServices.setLabel(label);
+        FileManager.writeFile(DataFile.CUSTOMER_SERVICES_DATA.getFileName(), customerServices);
     }
 
     private FlowPane renderFields() {
@@ -109,7 +118,7 @@ public class RegisterService extends StageTemplate {
 
     private FormActions renderActions() {
         final FormActions formActions = new FormActions("Enregistrer", "Quitter");
-        formActions.setConfirmCallback(this::showRecap);
+        formActions.setConfirmCallback(this::registerService);
         formActions.setCancelCallback(event -> this.close());
         return formActions;
     }
