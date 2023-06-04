@@ -8,9 +8,16 @@ public class FileManager {
 
     public static void writeFile(String fileName, Object data) {
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream("data/"+fileName, true);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            FileOutputStream fileOutputStream = new FileOutputStream("data/"+fileName+".dat", true);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream) {
+                @Override
+                protected void writeStreamHeader() throws IOException {
+                    // empty
+                }
+            };
+
             objectOutputStream.writeObject(data);
+            objectOutputStream.flush();
             objectOutputStream.close();
         } catch(IOException e) {
             e.printStackTrace();
@@ -19,17 +26,16 @@ public class FileManager {
 
     public static List<Object> readFile(String fileName) {
         List<Object> list = new ArrayList<>();
-        Object object;
 
         try {
-            FileInputStream fileInputStream = new FileInputStream("data/"+fileName);
+            FileInputStream fileInputStream = new FileInputStream("data/"+fileName+".dat");
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            do {
-                object = objectInputStream.readObject();
-                list.add(object);
-            } while(object != null);
+
+            System.out.println(objectInputStream.readObject());
+            System.out.println(objectInputStream.readObject());
             objectInputStream.close();
         } catch(IOException | ClassNotFoundException ignored) {
+            ignored.printStackTrace();
         }
         return list;
     }

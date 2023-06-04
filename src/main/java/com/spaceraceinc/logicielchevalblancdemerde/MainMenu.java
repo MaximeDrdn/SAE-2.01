@@ -9,7 +9,6 @@ import com.spaceraceinc.logicielchevalblancdemerde.ui.StageTemplate;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.typography.Title;
 import com.spaceraceinc.logicielchevalblancdemerde.utils.FileManager;
 import com.spaceraceinc.logicielchevalblancdemerde.utils.FilterResults;
-import com.spaceraceinc.logicielchevalblancdemerde.utils.Utils;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
@@ -20,7 +19,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
@@ -53,9 +51,6 @@ public class MainMenu extends StageTemplate {
             this.openAlert(Alert.AlertType.ERROR, "La date n'est pas remplit.");
             return;
         }
-
-        date.getEditor().setText(null);
-
         FilterResults filterResults = new FilterResults(dateContent);
         filterResults.setResults(FileManager.readFile(DataFile.CUSTOMER_SERVICES_DATA.getFileName()));
         this.results.clear();
