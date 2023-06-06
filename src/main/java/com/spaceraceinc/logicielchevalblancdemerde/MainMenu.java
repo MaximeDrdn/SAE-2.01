@@ -128,7 +128,7 @@ public class MainMenu extends StageTemplate {
                 list.forEach(data -> pane.getChildren().add(new SearchResultField(data)));
         });
 
-        pane.getChildren().add(noResultFound);
+        pane.getChildren().add(new SearchResultField(new Object()));
         pane.setVgap(20);
         pane.setAlignment(Pos.TOP_CENTER);
         return pane;

@@ -16,12 +16,12 @@ import java.time.LocalDateTime;
 public class SearchResultField extends BorderPane {
 
     public SearchResultField(Object data) {
-        CustomerServices customerServices = (CustomerServices) data;
+        //CustomerServices customerServices = (CustomerServices) data;
         this.setStyle("-fx-border-width: 1px;-fx-border-color: " + CustomColor.BROWN.asString());
         this.setPadding(new Insets(10));
 
         GridPane pane = new GridPane();
-        pane.add(new Title("Numéro de chambre: "+customerServices.getChamberNumber()), 0, 0);
+        pane.add(new Title("Numéro de chambre: 2030"), 0, 0);
         pane.add(this.getRegistrationText(LocalDateTime.now()), 0, 1);
         pane.setPadding(new Insets(0, 50, 0, 0));
 
