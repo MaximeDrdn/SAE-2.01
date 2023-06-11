@@ -1,10 +1,12 @@
-package com.spaceraceinc.logicielchevalblancdemerde.views;
+package com.spaceraceinc.logicielchevalblancdemerde.views.consummations;
 
-import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerConsummations;
+import com.spaceraceinc.logicielchevalblancdemerde.enums.DataFile;
+import com.spaceraceinc.logicielchevalblancdemerde.modules.Consummation;
+import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerConsummation;
+import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerPrestation;
 import com.spaceraceinc.logicielchevalblancdemerde.utils.FileManager;
 import com.spaceraceinc.logicielchevalblancdemerde.utils.Utils;
 import com.spaceraceinc.logicielchevalblancdemerde.modals.AddConsummationModal;
-import com.spaceraceinc.logicielchevalblancdemerde.modules.Consummation;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.StageTemplate;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomButton;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomQuantityField;
@@ -54,6 +56,9 @@ public class RegisterConsummation extends StageTemplate {
 
         this.close();
         this.openAlert(Alert.AlertType.INFORMATION, "Les consommations ont été ajoutés à la chambre.");
+
+        CustomerConsummation customerServices = new CustomerConsummation(chamberNumber, consummations.stream().toList());
+        FileManager.writeFile(DataFile.CUSTOMER_CONSUMMATIONS_DATA.getFileName(), customerServices);
     }
 
     private FlowPane renderFields() {

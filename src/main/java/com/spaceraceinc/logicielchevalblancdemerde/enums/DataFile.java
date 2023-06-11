@@ -2,7 +2,9 @@ package com.spaceraceinc.logicielchevalblancdemerde.enums;
 
 public enum DataFile {
 
-    CUSTOMER_SERVICES_DATA("customersServices");
+    CUSTOMER_PRESTATIONS_DATA("customersPrestations"),
+    CUSTOMER_CONSUMMATIONS_DATA("customersConsummations"),
+    CUSTOMER_BREAKFASTS_DATA("customersBreakfasts");
     
     private final String fileName;
     

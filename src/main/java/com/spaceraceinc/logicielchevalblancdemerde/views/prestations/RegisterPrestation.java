@@ -1,7 +1,7 @@
-package com.spaceraceinc.logicielchevalblancdemerde.views;
+package com.spaceraceinc.logicielchevalblancdemerde.views.prestations;
 
 import com.spaceraceinc.logicielchevalblancdemerde.enums.DataFile;
-import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerServices;
+import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerPrestation;
 import com.spaceraceinc.logicielchevalblancdemerde.utils.FileManager;
 import com.spaceraceinc.logicielchevalblancdemerde.utils.Utils;
 import com.spaceraceinc.logicielchevalblancdemerde.enums.ServiceType;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class RegisterService extends StageTemplate {
+public class RegisterPrestation extends StageTemplate {
 
     private CustomQuantityField chamberNumber;
     private CustomRadioList list;
@@ -35,7 +35,7 @@ public class RegisterService extends StageTemplate {
 
     private BooleanProperty hasSelectedPressing;
 
-    public RegisterService() {
+    public RegisterPrestation() {
         super("Enregistrer des prestations à l'accueil", 350, 450);
         this.setResizable(false);
     }
@@ -82,10 +82,10 @@ public class RegisterService extends StageTemplate {
         this.close();
         this.openAlert(Alert.AlertType.INFORMATION, "Les prestations ont été ajoutés.");
 
-        CustomerServices customerServices = new CustomerServices(chamberNumber, choice);
+        CustomerPrestation customerServices = new CustomerPrestation(chamberNumber, choice, amountWF);
         if(hasPressing)
             customerServices.setLabel(label);
-        FileManager.writeFile(DataFile.CUSTOMER_SERVICES_DATA.getFileName(), customerServices);
+        FileManager.writeFile(DataFile.CUSTOMER_PRESTATIONS_DATA.getFileName(), customerServices);
     }
 
     private FlowPane renderFields() {

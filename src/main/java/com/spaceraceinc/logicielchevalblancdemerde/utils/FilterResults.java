@@ -1,7 +1,9 @@
 package com.spaceraceinc.logicielchevalblancdemerde.utils;
 
 
-import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerServices;
+import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerBreakfast;
+import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerConsummation;
+import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerPrestation;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,7 +25,16 @@ public class FilterResults {
 
     public List<Object> getFilteredResults() {
         return this.results.stream()
-            .filter(result -> Utils.dateEquals(((CustomerServices) result).getRegistrationDate(), this.date))
+            .filter(result -> {
+                LocalDate registrationDate = LocalDate.now();
+                if(result instanceof CustomerConsummation)
+                    registrationDate = ((CustomerConsummation) result).getRegistrationDate();
+                else if(result instanceof CustomerPrestation)
+                    registrationDate = ((CustomerPrestation) result).getRegistrationDate();
+                else if(result instanceof CustomerBreakfast)
+                    registrationDate = ((CustomerBreakfast) result).getRegistrationDate();
+                return Utils.dateEquals(registrationDate, this.date);
+            })
             .collect(Collectors.toList());
     }
 

@@ -2,23 +2,25 @@ package com.spaceraceinc.logicielchevalblancdemerde.utils;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class FileManager {
 
+    private static final HashMap<String, ObjectOutputStream> list = new HashMap<>();
+
     public static void writeFile(String fileName, Object data) {
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream("data/"+fileName+".dat", true);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream) {
-                @Override
-                protected void writeStreamHeader() throws IOException {
-                    // empty
-                }
-            };
+            FileOutputStream fileOutputStream = new FileOutputStream("data/" + fileName + ".dat", true);
+            ObjectOutputStream out;
 
-            objectOutputStream.writeObject(data);
-            objectOutputStream.flush();
-            objectOutputStream.close();
+            if (!list.containsKey(fileName)) {
+                out = new ObjectOutputStream(fileOutputStream);
+                list.put(fileName, out);
+            } else
+                out = list.get(fileName);
+
+            out.writeObject(data);
         } catch(IOException e) {
             e.printStackTrace();
         }
@@ -29,13 +31,14 @@ public class FileManager {
 
         try {
             FileInputStream fileInputStream = new FileInputStream("data/"+fileName+".dat");
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            ObjectInputStream in = new ObjectInputStream(fileInputStream);
+            Object obj;
 
-            System.out.println(objectInputStream.readObject());
-            System.out.println(objectInputStream.readObject());
-            objectInputStream.close();
+            do {
+                obj = in.readObject();
+                list.add(obj);
+            } while(obj != null);
         } catch(IOException | ClassNotFoundException ignored) {
-            ignored.printStackTrace();
         }
         return list;
     }

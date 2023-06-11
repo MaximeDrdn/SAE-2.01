@@ -1,18 +1,17 @@
-package com.spaceraceinc.logicielchevalblancdemerde.views;
+package com.spaceraceinc.logicielchevalblancdemerde.views.prestations;
 
 import com.spaceraceinc.logicielchevalblancdemerde.ui.StageTemplate;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomQuantityField;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomTextField;
 import javafx.scene.Node;
 
-public class PrestationModification extends StageTemplate {
+public class EditPrestation extends StageTemplate {
 
     private CustomQuantityField chamberNumber;
     private CustomTextField libelle;
 
-    public PrestationModification(){
+    public EditPrestation(){
         super("Modification d'une prestation");
-
     }
 
     @Override

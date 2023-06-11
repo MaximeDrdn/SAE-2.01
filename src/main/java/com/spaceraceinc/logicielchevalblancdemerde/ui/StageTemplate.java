@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
@@ -15,7 +16,7 @@ import javafx.stage.Stage;
 public abstract class StageTemplate extends Stage {
 
     public StageTemplate(String stageTitle, int defaultWidth, int defaultHeight) {
-        final Scene scene = new Scene(this.getRoot());
+        this.getIcons().add(new Image("file:resources/images/icon.png"));
 
         if(defaultWidth > 0 && defaultHeight > 0) {
             this.setWidth(defaultWidth);
@@ -25,11 +26,15 @@ public abstract class StageTemplate extends Stage {
         }
 
         this.setTitle(stageTitle);
-        this.setScene(scene);
+        this.setScene(new Scene(this.getRoot()));
     }
 
     public StageTemplate(String stageTitle) {
         this(stageTitle, 0, 0);
+    }
+
+    public void updateScene() {
+        this.setScene(new Scene(this.getRoot()));
     }
 
     public void updatePaneComponent(Pane component, Node newComponent) {

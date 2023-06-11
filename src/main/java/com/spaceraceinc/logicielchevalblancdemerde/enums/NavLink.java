@@ -1,10 +1,17 @@
 package com.spaceraceinc.logicielchevalblancdemerde.enums;
 
 
+import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerBreakfast;
+import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerConsummation;
+import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerPrestation;
+import com.spaceraceinc.logicielchevalblancdemerde.ui.SearchResultField;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.StageTemplate;
-import com.spaceraceinc.logicielchevalblancdemerde.views.RegisterBreakfast;
-import com.spaceraceinc.logicielchevalblancdemerde.views.RegisterConsummation;
-import com.spaceraceinc.logicielchevalblancdemerde.views.RegisterService;
+import com.spaceraceinc.logicielchevalblancdemerde.views.breakfasts.BreakfastDetails;
+import com.spaceraceinc.logicielchevalblancdemerde.views.breakfasts.RegisterBreakfast;
+import com.spaceraceinc.logicielchevalblancdemerde.views.consummations.ConsummationDetails;
+import com.spaceraceinc.logicielchevalblancdemerde.views.consummations.RegisterConsummation;
+import com.spaceraceinc.logicielchevalblancdemerde.views.prestations.PrestationDetails;
+import com.spaceraceinc.logicielchevalblancdemerde.views.prestations.RegisterPrestation;
 
 public enum NavLink {
 
@@ -32,13 +39,45 @@ public enum NavLink {
         return values()[0];
     }
 
-    public static StageTemplate getClassFrom(String name) {
+    public StageTemplate getRegisterStage() {
+        String name = this.getName();
         if(name.equals(FEATURE1.getName()))
-            return new RegisterService();
+            return new RegisterPrestation();
         else if(name.equals(FEATURE2.getName()))
             return new RegisterConsummation();
         else if(name.equals(FEATURE3.getName()))
             return new RegisterBreakfast();
-        return new RegisterService();
+        return new RegisterPrestation();
+    }
+
+    public StageTemplate getDetailsStage(Object data) {
+        String name = this.getName();
+        if(name.equals(FEATURE2.getName()))
+            return new ConsummationDetails((CustomerConsummation) data);
+        else if(name.equals(FEATURE3.getName()))
+            return new BreakfastDetails((CustomerBreakfast) data);
+        return new PrestationDetails((CustomerPrestation) data);
+    }
+
+    public SearchResultField.SearchFieldData getSearchFieldData(Object data) {
+        String name = this.getName();
+        if(name.equals(FEATURE2.getName())) {
+            CustomerConsummation customerConsummation = (CustomerConsummation) data;
+            return new SearchResultField.SearchFieldData(customerConsummation.getChamberNumber(), customerConsummation.getRegistrationDate());
+        } else if(name.equals(FEATURE3.getName())) {
+            CustomerBreakfast customerBreakfast = (CustomerBreakfast) data;
+            return new SearchResultField.SearchFieldData(customerBreakfast.getChamberNumber(), customerBreakfast.getRegistrationDate());
+        }
+        CustomerPrestation customerPrestation = (CustomerPrestation) data;
+        return new SearchResultField.SearchFieldData(customerPrestation.getChamberNumber(), customerPrestation.getRegistrationDate());
+    }
+
+    public DataFile getAssociatedFileData() {
+        String name = this.getName();
+        if(name.equals(FEATURE2.getName()))
+            return DataFile.CUSTOMER_CONSUMMATIONS_DATA;
+        else if(name.equals(FEATURE3.getName()))
+            return DataFile.CUSTOMER_BREAKFASTS_DATA;
+        return DataFile.CUSTOMER_PRESTATIONS_DATA;
     }
 }

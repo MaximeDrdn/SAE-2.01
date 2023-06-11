@@ -1,7 +1,6 @@
 package com.spaceraceinc.logicielchevalblancdemerde;
 
 import com.spaceraceinc.logicielchevalblancdemerde.enums.CustomColor;
-import com.spaceraceinc.logicielchevalblancdemerde.enums.DataFile;
 import com.spaceraceinc.logicielchevalblancdemerde.enums.NavLink;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.SearchResultField;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.*;
@@ -52,7 +51,7 @@ public class MainMenu extends StageTemplate {
             return;
         }
         FilterResults filterResults = new FilterResults(dateContent);
-        filterResults.setResults(FileManager.readFile(DataFile.CUSTOMER_SERVICES_DATA.getFileName()));
+        filterResults.setResults(FileManager.readFile(this.activeNavLink.getAssociatedFileData().getFileName()));
         this.results.clear();
         this.results.addAll(filterResults.getFilteredResults());
     }
@@ -83,11 +82,10 @@ public class MainMenu extends StageTemplate {
     }
 
     private void updatePage(NavLink link) {
-        String linkName = link.getName();
         this.addButton.setText(link.getButtonLabel());
         this.activeNavLink = link;
         this.updatePaneComponent(this.navbarComponent, this.renderNavBar());
-        this.addButton.setOnAction(__ -> this.openModal(NavLink.getClassFrom(linkName)));
+        this.addButton.setOnAction(__ -> this.openModal(link.getRegisterStage()));
         this.results.clear();
     }
 
@@ -95,14 +93,13 @@ public class MainMenu extends StageTemplate {
         final CustomButton searchButton = new CustomButton(new CustomImage("icons/search.png", 14, 14));
         final NavLink activeLink = this.activeNavLink;
         final String buttonLabel = activeLink.getButtonLabel();
-        final String name = activeLink.getName();
 
         this.addButton = new CustomButton(buttonLabel);
         this.date = new CustomDateField("Date d'enregistrement");
 
         final FlowPane pane = new FlowPane();
 
-        this.addButton.setOnAction(event -> this.openModal(NavLink.getClassFrom(name)));
+        this.addButton.setOnAction(event -> this.openModal(activeLink.getRegisterStage()));
         searchButton.setOnAction(this::search);
 
         searchButton.setTranslateY(11);
@@ -125,10 +122,10 @@ public class MainMenu extends StageTemplate {
             if(list.size() < 1)
                 pane.getChildren().add(noResultFound);
             else
-                list.forEach(data -> pane.getChildren().add(new SearchResultField(data)));
+                list.forEach(data -> pane.getChildren().add(new SearchResultField(this, data)));
         });
 
-        pane.getChildren().add(new SearchResultField(new Object()));
+        pane.getChildren().add(noResultFound);
         pane.setVgap(20);
         pane.setAlignment(Pos.TOP_CENTER);
         return pane;
@@ -165,4 +162,7 @@ public class MainMenu extends StageTemplate {
         return pane;
     }
 
+    public NavLink getActiveNavLink() {
+        return activeNavLink;
+    }
 }

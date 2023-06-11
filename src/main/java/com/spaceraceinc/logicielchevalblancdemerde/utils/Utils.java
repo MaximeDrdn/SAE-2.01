@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 
 public class Utils {
 
-    public static String formatDate(LocalDateTime date) {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd à HH:mm");
-        return dtf.format(date);
+    public static String formatDate(LocalDate date) {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return date.format(dtf);
     }
 
     public static boolean dateEquals(LocalDate dateA, LocalDate dateB) {
