@@ -25,6 +25,7 @@ import javafx.scene.layout.HBox;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainMenu extends StageTemplate {
 
@@ -51,9 +52,17 @@ public class MainMenu extends StageTemplate {
             return;
         }
         FilterResults filterResults = new FilterResults(dateContent);
-        filterResults.setResults(FileManager.readFile(this.activeNavLink.getAssociatedFileData().getFileName()));
+        filterResults.setResults(this.getActiveLinkAssociatedResults());
+        this.updateResults(filterResults.getFilteredResults());
+    }
+
+    private List<Object> getActiveLinkAssociatedResults() {
+        return FileManager.readFile(this.activeNavLink.getAssociatedFileData().getFileName());
+    }
+
+    private void updateResults(List<Object> results) {
         this.results.clear();
-        this.results.addAll(filterResults.getFilteredResults());
+        this.results.addAll(results);
     }
 
     private GridPane renderNavBar() {
@@ -115,17 +124,16 @@ public class MainMenu extends StageTemplate {
     private FlowPane renderResultFields() {
         FlowPane pane = new FlowPane(Orientation.VERTICAL);
         this.results = new SimpleListProperty<>(FXCollections.observableArrayList(new ArrayList<>()));
-        Title noResultFound = new Title("Aucun resultat trouvé.");
 
         this.results.addListener((props, oldList, list) -> {
             pane.getChildren().clear();
             if(list.size() < 1)
-                pane.getChildren().add(noResultFound);
+                pane.getChildren().add(new Title("Aucun resultat trouvé."));
             else
                 list.forEach(data -> pane.getChildren().add(new SearchResultField(this, data)));
         });
 
-        pane.getChildren().add(noResultFound);
+        this.updateResults(this.getActiveLinkAssociatedResults());
         pane.setVgap(20);
         pane.setAlignment(Pos.TOP_CENTER);
         return pane;
