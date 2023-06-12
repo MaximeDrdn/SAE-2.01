@@ -17,8 +17,8 @@ import java.time.LocalDate;
 
 public class SearchResultField extends BorderPane {
 
-    private NavLink linkData;
-    private Object data;
+    private final NavLink linkData;
+    private final Object data;
 
     public final record SearchFieldData(int chamberNumber, LocalDate date) {}
 
