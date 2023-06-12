@@ -1,5 +1,6 @@
 package com.spaceraceinc.logicielchevalblancdemerde.views.prestations;
 
+import com.spaceraceinc.logicielchevalblancdemerde.enums.CustomColor;
 import com.spaceraceinc.logicielchevalblancdemerde.enums.ServiceType;
 import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerPrestation;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.StageTemplate;
@@ -17,6 +18,7 @@ import javafx.scene.text.Text;
 public class PrestationDetails extends StageTemplate {
 
     private final CustomerPrestation customerPrestation;
+    private CustomButton quit;
 
     public PrestationDetails(CustomerPrestation customerPrestation) {
         super("Récapitulatif d'une préstation", 350, 400);
@@ -28,7 +30,13 @@ public class PrestationDetails extends StageTemplate {
 
     @Override
     public Node renderTopContent() {
-        return new Title("Récapitulatif d'une préstation");
+        VBox haut = new VBox();
+
+        Title recap = new Title("Récapitulatif d'une préstation");
+
+        haut.getChildren().add(recap);
+        haut.setPadding(new Insets(20, 0, 20, 0));
+        return haut;
     }
 
     @Override
@@ -44,6 +52,7 @@ public class PrestationDetails extends StageTemplate {
         Text textDate = new Text("Date d'enregistrement: " + Utils.formatDate(customerPrestation.getRegistrationDate()));
 
         root.getChildren().addAll(numberChamber, textDate, typePrestation, montantHT);
+        root.setStyle("-fx-border-width: 1px;-fx-border-color: " + CustomColor.BROWN.asString());
         root.setSpacing(15);
         root.setPadding(new Insets((10)));
 
@@ -52,13 +61,16 @@ public class PrestationDetails extends StageTemplate {
 
     @Override
     public Node renderBottomContent() {
+        VBox bas = new VBox();
         FlowPane bottomRoot = new FlowPane();
-        CustomButton quit = new CustomButton("Quitter");
+        quit = new CustomButton("Quitter");
         quit.setOnAction( e -> {
             this.close();
         });
         bottomRoot.getChildren().addAll(quit);
         bottomRoot.setAlignment(Pos.BOTTOM_RIGHT);
-        return bottomRoot;
+        bas.getChildren().add(bottomRoot);
+        bas.setPadding(new Insets (20, 0, 0, 0));
+        return bas;
     }
 }
