@@ -47,4 +47,8 @@ public class CustomTextField extends GridPane {
         this(labelName, null);
     }
 
+    public void setValue(String value) {
+        this.getField().setText(value);
+    }
+
 }

@@ -1,10 +1,8 @@
 package com.spaceraceinc.logicielchevalblancdemerde.views.consummations;
 
-import com.spaceraceinc.logicielchevalblancdemerde.enums.DataFile;
+import com.spaceraceinc.logicielchevalblancdemerde.MainMenu;
 import com.spaceraceinc.logicielchevalblancdemerde.modules.Consummation;
 import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerConsummation;
-import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerPrestation;
-import com.spaceraceinc.logicielchevalblancdemerde.utils.FileManager;
 import com.spaceraceinc.logicielchevalblancdemerde.utils.Utils;
 import com.spaceraceinc.logicielchevalblancdemerde.modals.AddConsummationModal;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.StageTemplate;
@@ -41,6 +39,10 @@ public class RegisterConsummation extends StageTemplate {
 
         this.consummations = new SimpleListProperty<>(observableList);
         this.setResizable(false);
+
+        this.consummations.addListener((props, oldValue, newValue) -> {
+            this.updateScene();
+        });
     }
 
     private void registerConsummation(ActionEvent action) {
@@ -57,11 +59,12 @@ public class RegisterConsummation extends StageTemplate {
         this.close();
         this.openAlert(Alert.AlertType.INFORMATION, "Les consommations ont été ajoutés à la chambre.");
 
-        CustomerConsummation customerServices = new CustomerConsummation(chamberNumber, consummations.stream().toList());
-        FileManager.writeFile(DataFile.CUSTOMER_CONSUMMATIONS_DATA.getFileName(), customerServices);
+        CustomerConsummation customerConsummation = new CustomerConsummation(chamberNumber, consummations.stream().toList());
+        MainMenu.CUSTOMER_CONSUMMATIONS_LIST.add(customerConsummation);
     }
 
-    private FlowPane renderFields() {
+    @Override
+    public FlowPane renderMainContent() {
         final FlowPane group = new FlowPane(Orientation.VERTICAL);
         final Button button = new CustomButton("Ajouter une consommation");
         this.chamberNumber = new CustomQuantityField("Numéro de chambre", "Format: NuméroEtageXX (ex: 201)");
@@ -71,12 +74,16 @@ public class RegisterConsummation extends StageTemplate {
         group.setAlignment(Pos.CENTER);
         group.setVgap(10);
         group.getChildren().addAll(this.chamberNumber, button);
+        if(this.consummations != null && this.consummations.size() > 0) {
+            group.getChildren().add(new Title("Liste des consommations ajoutées (" + this.consummations.size() + ")"));
+            this.consummations.forEach(consummation ->
+                group.getChildren().add(consummation.render(event ->
+                    this.consummations.remove(consummation))
+                )
+            );
+            this.sizeToScene();
+        }
         return group;
-    }
-
-    @Override
-    public FlowPane renderMainContent() {
-        return this.renderFields();
     }
 
     @Override

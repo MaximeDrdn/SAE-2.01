@@ -7,9 +7,12 @@ import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerPrestation;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.SearchResultField;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.StageTemplate;
 import com.spaceraceinc.logicielchevalblancdemerde.views.breakfasts.BreakfastDetails;
+import com.spaceraceinc.logicielchevalblancdemerde.views.breakfasts.EditBreakfast;
 import com.spaceraceinc.logicielchevalblancdemerde.views.breakfasts.RegisterBreakfast;
 import com.spaceraceinc.logicielchevalblancdemerde.views.consummations.ConsummationDetails;
+import com.spaceraceinc.logicielchevalblancdemerde.views.consummations.EditConsummation;
 import com.spaceraceinc.logicielchevalblancdemerde.views.consummations.RegisterConsummation;
+import com.spaceraceinc.logicielchevalblancdemerde.views.prestations.EditPrestation;
 import com.spaceraceinc.logicielchevalblancdemerde.views.prestations.PrestationDetails;
 import com.spaceraceinc.logicielchevalblancdemerde.views.prestations.RegisterPrestation;
 
@@ -59,6 +62,15 @@ public enum NavLink {
         return new PrestationDetails((CustomerPrestation) data);
     }
 
+    public StageTemplate getModificationStage(Object data) {
+        String name = this.getName();
+        if(name.equals(FEATURE2.getName()))
+            return new EditConsummation((CustomerConsummation) data);
+        else if(name.equals(FEATURE3.getName()))
+            return new EditBreakfast((CustomerBreakfast) data);
+        return new EditPrestation((CustomerPrestation) data);
+    }
+
     public SearchResultField.SearchFieldData getSearchFieldData(Object data) {
         String name = this.getName();
         if(name.equals(FEATURE2.getName())) {
@@ -70,14 +82,5 @@ public enum NavLink {
         }
         CustomerPrestation customerPrestation = (CustomerPrestation) data;
         return new SearchResultField.SearchFieldData(customerPrestation.getChamberNumber(), customerPrestation.getRegistrationDate());
-    }
-
-    public DataFile getAssociatedFileData() {
-        String name = this.getName();
-        if(name.equals(FEATURE2.getName()))
-            return DataFile.CUSTOMER_CONSUMMATIONS_DATA;
-        else if(name.equals(FEATURE3.getName()))
-            return DataFile.CUSTOMER_BREAKFASTS_DATA;
-        return DataFile.CUSTOMER_PRESTATIONS_DATA;
     }
 }

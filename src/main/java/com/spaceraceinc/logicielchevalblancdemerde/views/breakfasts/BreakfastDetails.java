@@ -1,5 +1,6 @@
 package com.spaceraceinc.logicielchevalblancdemerde.views.breakfasts;
 
+import com.spaceraceinc.logicielchevalblancdemerde.enums.CustomColor;
 import com.spaceraceinc.logicielchevalblancdemerde.enums.ServiceType;
 import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerBreakfast;
 import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerPrestation;
@@ -44,6 +45,8 @@ public class BreakfastDetails extends StageTemplate {
             new Text("Quantité de petit-déjeuné: " + this.customerBreakfast.getQuantity()),
             new Text("Type de petit-déjeuné: " + this.customerBreakfast.getType())
         );
+
+        root.setStyle("-fx-border-width: 1px;-fx-border-color: " + CustomColor.BROWN.asString());
         root.setSpacing(15);
         root.setPadding(new Insets((10)));
 

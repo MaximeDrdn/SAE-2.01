@@ -1,9 +1,7 @@
 package com.spaceraceinc.logicielchevalblancdemerde.views.breakfasts;
 
-import com.spaceraceinc.logicielchevalblancdemerde.enums.DataFile;
+import com.spaceraceinc.logicielchevalblancdemerde.MainMenu;
 import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerBreakfast;
-import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerPrestation;
-import com.spaceraceinc.logicielchevalblancdemerde.utils.FileManager;
 import com.spaceraceinc.logicielchevalblancdemerde.utils.Utils;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.FormActions;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.StageTemplate;
@@ -48,7 +46,7 @@ public class RegisterBreakfast extends StageTemplate {
         this.openAlert(Alert.AlertType.INFORMATION, "Les petits-déjeuners ont été ajoutés à la chambre.");
 
         CustomerBreakfast customerBreakfasts = new CustomerBreakfast(chamberNumber, type, quantity);
-        FileManager.writeFile(DataFile.CUSTOMER_BREAKFASTS_DATA.getFileName(), customerBreakfasts);
+        MainMenu.CUSTOMER_BREAKFAST_LIST.add(customerBreakfasts);
     }
 
     private FormActions renderActions() {
@@ -66,7 +64,7 @@ public class RegisterBreakfast extends StageTemplate {
     @Override
     public Node renderMainContent() {
         final FlowPane group = new FlowPane();
-        this.chamberNumber = new CustomQuantityField("Numéro de la chambre");
+        this.chamberNumber = new CustomQuantityField("Numéro de la chambre", "Format: NuméroEtageXX (ex: 201)");
         this.type = new CustomTextField("Type de petit-déjeuner");
         this.quantity = new CustomQuantityField("Quantité de petits-déjeuners");
 

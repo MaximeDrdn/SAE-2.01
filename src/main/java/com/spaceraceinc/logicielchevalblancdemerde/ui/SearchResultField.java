@@ -7,7 +7,6 @@ import com.spaceraceinc.logicielchevalblancdemerde.enums.CustomColor;
 import com.spaceraceinc.logicielchevalblancdemerde.enums.CustomFont;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomButton;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.typography.Title;
-import com.spaceraceinc.logicielchevalblancdemerde.views.prestations.EditPrestation;
 import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -34,7 +33,7 @@ public class SearchResultField extends BorderPane {
         buttonDetail.setOnAction(event -> window.openModal(this.linkData.getDetailsStage(data)));
 
         CustomButton buttonModification = new CustomButton("Modifier");
-        buttonModification.setOnAction(event -> window.openModal(new EditPrestation()));
+        buttonModification.setOnAction(event -> window.openModal(this.linkData.getModificationStage(data)));
 
         pane2.add(buttonDetail, 0, 0);
         pane2.add(buttonModification, 1, 0);

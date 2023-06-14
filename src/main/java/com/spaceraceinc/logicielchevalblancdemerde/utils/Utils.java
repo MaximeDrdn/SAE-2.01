@@ -30,6 +30,10 @@ public class Utils {
         return value > 0;
     }
 
+    public static boolean isDoubleFieldValid(double value) {
+        return value > 0;
+    }
+
     public static Map<String, Boolean> getInvalidFieldsFrom(List<String> fieldKeys, List<Boolean> fieldValues) {
         final Map<String, Boolean> fields = new HashMap<>();
         if(fieldKeys.size() != fieldValues.size()) {

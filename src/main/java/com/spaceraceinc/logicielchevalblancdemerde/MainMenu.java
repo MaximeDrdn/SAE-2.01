@@ -2,11 +2,14 @@ package com.spaceraceinc.logicielchevalblancdemerde;
 
 import com.spaceraceinc.logicielchevalblancdemerde.enums.CustomColor;
 import com.spaceraceinc.logicielchevalblancdemerde.enums.NavLink;
+import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerBreakfast;
+import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerConsummation;
+import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerPrestation;
+import com.spaceraceinc.logicielchevalblancdemerde.test.AddingTest;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.SearchResultField;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.*;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.StageTemplate;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.typography.Title;
-import com.spaceraceinc.logicielchevalblancdemerde.utils.FileManager;
 import com.spaceraceinc.logicielchevalblancdemerde.utils.FilterResults;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -25,9 +28,14 @@ import javafx.scene.layout.HBox;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainMenu extends StageTemplate {
+
+    public static SimpleListProperty<CustomerPrestation> CUSTOMER_PRESTATIONS_LIST = new SimpleListProperty<>(FXCollections.observableArrayList(new ArrayList<>()));
+    public static SimpleListProperty<CustomerBreakfast> CUSTOMER_BREAKFAST_LIST = new SimpleListProperty<>(FXCollections.observableArrayList(new ArrayList<>()));
+    public static SimpleListProperty<CustomerConsummation> CUSTOMER_CONSUMMATIONS_LIST = new SimpleListProperty<>(FXCollections.observableArrayList(new ArrayList<>()));
 
     private CustomButton addButton;
     private NavLink activeNavLink;
@@ -41,6 +49,22 @@ public class MainMenu extends StageTemplate {
         super("Logiciel ChevalBlanc", 1000, 600);
         this.setMinWidth(1000);
         this.setMinHeight(600);
+
+        AddingTest.loadTestGame();
+        this.updateScene();
+        this.loadDataUpdateListeners();
+    }
+
+    private void loadDataUpdateListeners() {
+        CUSTOMER_PRESTATIONS_LIST.addListener((props, oldValue, newValue) -> {
+            this.updateFilteredResults(this.date.getField().getValue(), Arrays.asList(newValue.toArray()));
+        });
+        CUSTOMER_BREAKFAST_LIST.addListener((props, oldValue, newValue) -> {
+            this.updateFilteredResults(this.date.getField().getValue(), Arrays.asList(newValue.toArray()));
+        });
+        CUSTOMER_CONSUMMATIONS_LIST.addListener((props, oldValue, newValue) -> {
+            this.updateFilteredResults(this.date.getField().getValue(), Arrays.asList(newValue.toArray()));
+        });
     }
 
     private void search(ActionEvent event) {
@@ -51,13 +75,27 @@ public class MainMenu extends StageTemplate {
             this.openAlert(Alert.AlertType.ERROR, "La date n'est pas remplit.");
             return;
         }
-        FilterResults filterResults = new FilterResults(dateContent);
-        filterResults.setResults(this.getActiveLinkAssociatedResults());
-        this.updateResults(filterResults.getFilteredResults());
+        this.updateFilteredResults(dateContent, this.getActiveLinkAssociatedResults());
     }
 
     private List<Object> getActiveLinkAssociatedResults() {
-        return FileManager.readFile(this.activeNavLink.getAssociatedFileData().getFileName());
+        if(this.activeNavLink.getName().equals(NavLink.FEATURE1.getName()))
+            return Arrays.asList(CUSTOMER_PRESTATIONS_LIST.toArray());
+        else if(this.activeNavLink.getName().equals(NavLink.FEATURE2.getName()))
+            return Arrays.asList(CUSTOMER_CONSUMMATIONS_LIST.toArray());
+        else if(this.activeNavLink.getName().equals(NavLink.FEATURE3.getName()))
+            return Arrays.asList(CUSTOMER_BREAKFAST_LIST.toArray());
+        return null;
+    }
+
+    private void updateFilteredResults(LocalDate date, List<Object> results) {
+        if(date == null) {
+            this.updateResults(results);
+            return;
+        }
+        FilterResults filterResults = new FilterResults(date);
+        filterResults.setResults(results);
+        this.updateResults(filterResults.getFilteredResults());
     }
 
     private void updateResults(List<Object> results) {
@@ -95,7 +133,7 @@ public class MainMenu extends StageTemplate {
         this.activeNavLink = link;
         this.updatePaneComponent(this.navbarComponent, this.renderNavBar());
         this.addButton.setOnAction(__ -> this.openModal(link.getRegisterStage()));
-        this.results.clear();
+        this.updateFilteredResults(this.date.getField().getValue(), this.getActiveLinkAssociatedResults());
     }
 
     private FlowPane renderHeader() {

@@ -6,24 +6,25 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 
-public class CustomQuantityField extends GridPane {
+public class CustomPriceField extends GridPane {
 
-    public static final int MIN_VALUE = 0;
-    public static final int DEFAULT_VALUE = 0;
+    public static final double MIN_VALUE = 0;
+    public static final double DEFAULT_VALUE = 0;
+    public static final double STEP_BY = .1;
 
-    private final Spinner<Integer> field = new Spinner<>();
+    private final Spinner<Double> field = new Spinner<>();
 
-    public CustomQuantityField(String labelName, String tooltip) {
+    public CustomPriceField(String labelName, String tooltip) {
         final Label label = new Label(labelName + " *");
 
         field.setPromptText(labelName);
         field.setPrefWidth(300);
         field.setStyle(
-            "-fx-border-width: 1px;" +
-            "-fx-border-color: " + CustomColor.BROWN.asString() + ";" +
-            "-fx-border-radius: 0;" +
-            "-fx-focus-color: transparent;" +
-            "-fx-faint-focus-color: transparent;"
+                "-fx-border-width: 1px;" +
+                        "-fx-border-color: " + CustomColor.BROWN.asString() + ";" +
+                        "-fx-border-radius: 0;" +
+                        "-fx-focus-color: transparent;" +
+                        "-fx-faint-focus-color: transparent;"
         );
         field.getEditor().setFont(CustomFont.MONTSERRAT_REGULAR.getFont());
         field.getEditor().setPadding(new Insets(9));
@@ -36,12 +37,12 @@ public class CustomQuantityField extends GridPane {
         label.setPadding(new Insets(0, 0, 10, 0));
 
 
-        field.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(MIN_VALUE, Integer.MAX_VALUE, DEFAULT_VALUE));
+        field.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(MIN_VALUE, Double.MAX_VALUE, DEFAULT_VALUE, STEP_BY));
         field.setEditable(true);
 
         final TextField editor = field.getEditor();
         editor.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(!newValue.matches("^[0-9]+$"))
+            if(!newValue.matches("^([0-9]*([.|,]))?([0-9]?)+$"))
                 editor.setText(oldValue);
         });
         editor.focusedProperty().addListener((observable, oldValue, newValue) -> {
@@ -53,16 +54,16 @@ public class CustomQuantityField extends GridPane {
         this.add(field, 1, 1);
     }
 
-    public Spinner<Integer> getField() {
+    public Spinner<Double> getField() {
         return field;
     }
 
-    public CustomQuantityField(String labelName) {
+    public CustomPriceField(String labelName) {
         this(labelName, null);
     }
 
-    public void setValue(int value) {
-        this.getField().getEditor().setText(Integer.toString(value));
+    public void setValue(double value) {
+        this.getField().getEditor().setText(Double.toString(value));
     }
 
 }

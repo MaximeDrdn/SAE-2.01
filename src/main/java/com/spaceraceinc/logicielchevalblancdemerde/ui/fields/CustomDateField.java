@@ -2,11 +2,17 @@ package com.spaceraceinc.logicielchevalblancdemerde.ui.fields;
 
 import com.spaceraceinc.logicielchevalblancdemerde.enums.CustomColor;
 import com.spaceraceinc.logicielchevalblancdemerde.enums.CustomFont;
+import com.spaceraceinc.logicielchevalblancdemerde.utils.Utils;
 import javafx.geometry.Insets;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class CustomDateField extends GridPane {
 
@@ -14,6 +20,7 @@ public class CustomDateField extends GridPane {
 
     public CustomDateField(String labelName, String tooltip) {
         final Label label = new Label(labelName + " *");
+        final TextField editor = field.getEditor();
 
         field.setPromptText(labelName);
         field.setPrefWidth(300);
@@ -23,10 +30,10 @@ public class CustomDateField extends GridPane {
             "-fx-focus-color: transparent;" +
             "-fx-faint-focus-color: transparent;"
         );
+        field.setPromptText("DD/MM/YYYY");
         field.setEditable(false);
-        field.getEditor().setPadding(new Insets(9));
 
-
+        editor.setPadding(new Insets(9));
         if(tooltip != null)
             field.setTooltip(new Tooltip(tooltip));
 

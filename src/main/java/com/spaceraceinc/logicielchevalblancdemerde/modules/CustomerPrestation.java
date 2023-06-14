@@ -9,9 +9,9 @@ public class CustomerPrestation implements Serializable {
     private LocalDate registrationDate;
     private String choice;
     private String label;
-    private int amountWF;
+    private double amountWF;
 
-    public CustomerPrestation(int chamberNumber, String choice, int amountWF) {
+    public CustomerPrestation(int chamberNumber, String choice, double amountWF) {
         this.chamberNumber = chamberNumber;
         this.choice = choice;
         this.label = null;
@@ -35,7 +35,7 @@ public class CustomerPrestation implements Serializable {
         this.registrationDate = registrationDate;
     }
 
-    public void setAmountWF(int amountWF) {
+    public void setAmountWF(double amountWF) {
         this.amountWF = amountWF;
     }
 
@@ -55,7 +55,7 @@ public class CustomerPrestation implements Serializable {
         return label;
     }
 
-    public int getAmountWF() {
+    public double getAmountWF() {
         return amountWF;
     }
 

@@ -1,5 +1,6 @@
 package com.spaceraceinc.logicielchevalblancdemerde.views.consummations;
 
+import com.spaceraceinc.logicielchevalblancdemerde.enums.CustomColor;
 import com.spaceraceinc.logicielchevalblancdemerde.enums.ServiceType;
 import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerConsummation;
 import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerPrestation;
@@ -45,6 +46,7 @@ public class ConsummationDetails extends StageTemplate {
         );
         this.customerConsummation.getConsummations().forEach(consummation -> root.getChildren().add(consummation.render()));
 
+        root.setStyle("-fx-border-width: 1px;-fx-border-color: " + CustomColor.BROWN.asString());
         root.setSpacing(15);
         root.setPadding(new Insets((10)));
         this.sizeToScene();

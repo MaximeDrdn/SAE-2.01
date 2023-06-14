@@ -1,8 +1,8 @@
 package com.spaceraceinc.logicielchevalblancdemerde.views.prestations;
 
-import com.spaceraceinc.logicielchevalblancdemerde.enums.DataFile;
+import com.spaceraceinc.logicielchevalblancdemerde.MainMenu;
 import com.spaceraceinc.logicielchevalblancdemerde.modules.CustomerPrestation;
-import com.spaceraceinc.logicielchevalblancdemerde.utils.FileManager;
+import com.spaceraceinc.logicielchevalblancdemerde.ui.fields.CustomPriceField;
 import com.spaceraceinc.logicielchevalblancdemerde.utils.Utils;
 import com.spaceraceinc.logicielchevalblancdemerde.enums.ServiceType;
 import com.spaceraceinc.logicielchevalblancdemerde.ui.FormActions;
@@ -31,7 +31,7 @@ public class RegisterPrestation extends StageTemplate {
     private CustomQuantityField chamberNumber;
     private CustomRadioList list;
     private CustomTextField label;
-    private CustomQuantityField amountWF;
+    private CustomPriceField amountWF;
 
     private BooleanProperty hasSelectedPressing;
 
@@ -57,13 +57,16 @@ public class RegisterPrestation extends StageTemplate {
         final RadioButton selectedToggle = (RadioButton) this.list.getSelectedToggle();
 
         final int chamberNumber = this.chamberNumber.getField().getValue();
-        final int amountWF = this.amountWF.getField().getValue();
+        double amountWF = 0;
+        try {
+            amountWF = this.amountWF.getField().getValue();
+        } catch(NullPointerException ignored) {}
 
         final String label = this.label.getField().getText();
         final String choice = selectedToggle.getText();
 
         final ArrayList<String> labels = new ArrayList<>(List.of("numéro de chambre", "montant HT"));
-        final ArrayList<Boolean> values = new ArrayList<>(List.of(Utils.isIntFieldValid(chamberNumber), Utils.isIntFieldValid(amountWF)));
+        final ArrayList<Boolean> values = new ArrayList<>(List.of(Utils.isIntFieldValid(chamberNumber), Utils.isDoubleFieldValid(amountWF)));
         final boolean hasPressing = choice.equals(ServiceType.PRESSING.getName());
 
 
@@ -80,21 +83,21 @@ public class RegisterPrestation extends StageTemplate {
         }
 
         this.close();
-        this.openAlert(Alert.AlertType.INFORMATION, "Les prestations ont été ajoutés.");
+        this.openAlert(Alert.AlertType.INFORMATION, "La prestation a été ajouté.");
 
         CustomerPrestation customerServices = new CustomerPrestation(chamberNumber, choice, amountWF);
         if(hasPressing)
             customerServices.setLabel(label);
-        FileManager.writeFile(DataFile.CUSTOMER_PRESTATIONS_DATA.getFileName(), customerServices);
+        MainMenu.CUSTOMER_PRESTATIONS_LIST.add(customerServices);
     }
 
     private FlowPane renderFields() {
         final FlowPane group = new FlowPane(Orientation.VERTICAL);
         final ObservableList<Node> children = group.getChildren();
 
-        this.chamberNumber = new CustomQuantityField("Numéro de chambre");
+        this.chamberNumber = new CustomQuantityField("Numéro de chambre", "Format: NuméroEtageXX (ex: 201)");
         this.label = new CustomTextField("Libellé");
-        this.amountWF = new CustomQuantityField("Montant HT");
+        this.amountWF = new CustomPriceField("Montant HT");
 
         this.hasSelectedPressing = new SimpleBooleanProperty(false);
 
