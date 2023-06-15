@@ -27,7 +27,6 @@ import java.util.Map;
 
 public class EditPrestation extends StageTemplate {
 
-    private CustomQuantityField chamberNumber;
     private CustomRadioList list;
     private CustomTextField label;
     private CustomPriceField amountWF;
@@ -83,8 +82,7 @@ public class EditPrestation extends StageTemplate {
         CustomerPrestation customerServices = new CustomerPrestation(this.data.getChamberNumber(), choice, amountWF);
         if(hasPressing)
             customerServices.setLabel(label);
-        MainMenu.CUSTOMER_PRESTATIONS_LIST.remove(this.data);
-        MainMenu.CUSTOMER_PRESTATIONS_LIST.add(customerServices);
+        MainMenu.CUSTOMER_PRESTATIONS_LIST.set(MainMenu.CUSTOMER_PRESTATIONS_LIST.indexOf(this.data), customerServices);
     }
 
     private FlowPane renderFields() {

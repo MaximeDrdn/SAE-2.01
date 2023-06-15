@@ -20,14 +20,15 @@ public class AddingTest {
         list.add(c2);
         list2.add(c3);
         MainMenu.CUSTOMER_CONSUMMATIONS_LIST.add(new CustomerConsummation(472, list));
-        MainMenu.CUSTOMER_CONSUMMATIONS_LIST.add(new CustomerConsummation(472, list));
+        MainMenu.CUSTOMER_CONSUMMATIONS_LIST.add(new CustomerConsummation(472, list2));
 
 
     }
 
     public static void createFicPrestations() {
-        MainMenu.CUSTOMER_PRESTATIONS_LIST.add(new CustomerPrestation(293, "Pressing", 100.0));
-        MainMenu.CUSTOMER_PRESTATIONS_LIST.add(new CustomerPrestation(100, "Pressing", 110.0));
+        CustomerPrestation pres1 = new CustomerPrestation(293, "Pressing", 100.0);
+        pres1.setLabel("Test");
+        MainMenu.CUSTOMER_PRESTATIONS_LIST.add(pres1);
         MainMenu.CUSTOMER_PRESTATIONS_LIST.add(new CustomerPrestation(203, "Navette", 150.0));
     }
 

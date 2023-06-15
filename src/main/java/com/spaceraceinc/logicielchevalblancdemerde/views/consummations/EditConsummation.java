@@ -25,7 +25,6 @@ import javafx.scene.layout.HBox;
 
 public class EditConsummation extends StageTemplate {
 
-    private CustomQuantityField chamberNumber;
     private CustomerConsummation data;
 
     private final ListProperty<Consummation> consummations;
@@ -57,8 +56,7 @@ public class EditConsummation extends StageTemplate {
 
         // @todo modifier ici
         CustomerConsummation customerConsummation = new CustomerConsummation(this.data.getChamberNumber(), consummations.stream().toList());
-        MainMenu.CUSTOMER_CONSUMMATIONS_LIST.remove(this.data);
-        MainMenu.CUSTOMER_CONSUMMATIONS_LIST.add(customerConsummation);
+        MainMenu.CUSTOMER_CONSUMMATIONS_LIST.set(MainMenu.CUSTOMER_CONSUMMATIONS_LIST.indexOf(this.data), customerConsummation);
     }
 
     @Override

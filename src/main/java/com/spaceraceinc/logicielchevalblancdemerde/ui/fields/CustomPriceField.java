@@ -63,7 +63,7 @@ public class CustomPriceField extends GridPane {
     }
 
     public void setValue(double value) {
-        this.getField().getEditor().setText(Double.toString(value));
+        this.getField().getValueFactory().setValue(value);
     }
 
 }

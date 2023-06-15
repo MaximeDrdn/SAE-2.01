@@ -19,7 +19,6 @@ import java.util.Map;
 
 public class EditBreakfast extends StageTemplate {
 
-    private CustomQuantityField chamberNumber;
     private CustomTextField type;
     private CustomQuantityField quantity;
 
@@ -50,8 +49,7 @@ public class EditBreakfast extends StageTemplate {
         this.openAlert(Alert.AlertType.INFORMATION, "Les petits-déjeuners de la chambre ont été modifiés.");
 
         CustomerBreakfast customerBreakfasts = new CustomerBreakfast(this.data.getChamberNumber(), type, quantity);
-        MainMenu.CUSTOMER_BREAKFAST_LIST.remove(this.data);
-        MainMenu.CUSTOMER_BREAKFAST_LIST.add(customerBreakfasts);
+        MainMenu.CUSTOMER_BREAKFAST_LIST.set(MainMenu.CUSTOMER_BREAKFAST_LIST.indexOf(this.data), customerBreakfasts);
     }
 
     private FormActions renderActions() {

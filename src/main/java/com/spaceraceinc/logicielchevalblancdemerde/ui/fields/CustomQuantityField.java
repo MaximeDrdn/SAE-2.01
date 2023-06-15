@@ -41,7 +41,7 @@ public class CustomQuantityField extends GridPane {
 
         final TextField editor = field.getEditor();
         editor.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(!newValue.matches("^[0-9]+$"))
+            if(!newValue.matches("^[0-9]*$"))
                 editor.setText(oldValue);
         });
         editor.focusedProperty().addListener((observable, oldValue, newValue) -> {
